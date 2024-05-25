@@ -78,12 +78,17 @@ class DBStorage:
     def get(self, cls, id):
         """A method to retrieve one object."""
         if cls and id:
-            return self.__session.query(cls).get(id)
+            if type(cls) is str:
+                cls = classes.get(cls)
+            if cls:
+                return self.__session.query(cls).get(id)
         return None
 
     def count(self, cls=None):
         """A method to count the number of objects in storage."""
         if cls:
+            if type(cls) is str:
+                cls = classes.get(cls)
             return self.__session.query(cls).count()
         return sum(
             [self.__session.query(model).count() for model in classes.values()]

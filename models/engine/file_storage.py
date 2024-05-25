@@ -79,6 +79,8 @@ class FileStorage:
     def count(self, cls=None):
         """A method to count the number of objects in storage."""
         if cls:
+            if type(cls) is str:
+                cls = classes.get(cls)
             return len(
                 [obj for obj in self.__objects.values() if isinstance(
                     obj, cls)]
