@@ -16,7 +16,10 @@ from models.state import State
 from models.user import User
 import json
 import os
-import pep8
+try:
+    import pep8
+except ImportError:
+    import pycodestyle as pep8
 import unittest
 FileStorage = file_storage.FileStorage
 classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
@@ -120,14 +123,14 @@ class TestFileStorage(unittest.TestCase):
         state = State(name='texas')
         models.storage.new(state)
         models.storage.save()
-        self.assertEqual(models.storage.get("State", state.id).id, state.id)
+        self.assertEqual(models.storage.get(State, state.id).id, state.id)
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_count(self):
         """Test the count method of file storage."""
-        no_states_before = models.storage.count("State")
+        no_states_before = models.storage.count(State)
         state = State(name='ohio')
         models.storage.new(state)
         models.storage.save()
-        no_states_after = models.storage.count("State")
+        no_states_after = models.storage.count(State)
         self.assertEqual(no_states_after, no_states_before + 1)
