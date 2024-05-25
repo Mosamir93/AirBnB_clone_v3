@@ -13,7 +13,7 @@ def get_states():
     return jsonify(states)
 
 
-@app_views.route('/states/<state_id>', methods=['GET'])
+@app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
@@ -22,7 +22,7 @@ def get_state(state_id):
         return jsonify(state.to_dict())
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'])
+@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
 def delete_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
@@ -31,11 +31,9 @@ def delete_state(state_id):
         storage.delete(state)
         storage.save()
         return jsonify({}), 200
-    
-        
 
 
-@app_views.route('/states', methods=['POST'])
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """Creates a new state object."""
     if not request.get_json():
@@ -48,7 +46,7 @@ def create_state():
     return jsonify(state.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'])
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
     state = storage.get(State, state_id)
     if state:
