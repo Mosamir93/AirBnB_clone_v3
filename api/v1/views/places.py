@@ -60,7 +60,7 @@ def create_place(city_id):
     if 'name' not in data:
         abort(400, 'Missing name')
     data['city_id'] = city_id
-    place = place(**data)
+    place = Place(**data)
     storage.new(place)
     storage.save()
     return jsonify(place.to_dict()), 201
@@ -70,7 +70,7 @@ def create_place(city_id):
                  strict_slashes=False)
 def update_place(place_id):
     """Updates a place."""
-    place = storage.get(place, place_id)
+    place = storage.get(Place, place_id)
     if place is None:
         abort(404)
     data = request.get_json(silent=True)
