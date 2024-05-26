@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""A view for State objects."""
+"""A view for City objects."""
 from api.v1.views import app_views
 from flask import jsonify, abort, Response, request
 from models import storage
