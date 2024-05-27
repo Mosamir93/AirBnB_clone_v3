@@ -109,7 +109,7 @@ def places_search():
     if states:
         for state_id in states:
             state = storage.get(State, state_id)
-            if state:
+            if state is not None:
                 for city in state.cities:
                     for place in city.places:
                         places.add(place)
@@ -117,7 +117,7 @@ def places_search():
     if cities:
         for city_id in cities:
             city = storage.get(City, city_id)
-            if city:
+            if city is not None:
                 for place in city.places:
                     places.add(place)
 
