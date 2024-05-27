@@ -125,7 +125,7 @@ def places_search():
         places = storage.all(Place).values()
 
     if amenities_ids:
-        amenities = [storage.get(Amenity, amenity_id)
+        amenities = [storage.get(Amenity, amenity_id).to_dict()
                      for amenity_id in amenities_ids]
         if storage_t == 'db':
             places = [place for place in places if all(
