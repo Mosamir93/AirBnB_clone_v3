@@ -125,9 +125,18 @@ def places_search():
         places = set(storage.all(Place).values())
 
     if amenities_ids:
-        amenities = [storage.get(Amenity, amenity_id).to_dict()
-                     for amenity_id in amenities_ids]
-        places = {place for place in places if all(
-            amenity in place.amenities for amenity in amenities
-        )}
-    return jsonify([place.to_dict() for place in places])
+        amenities = [storage.get(Amenity, amenity_id)
+                     for amenity_id in amenities_ids if storage.get(
+                         Amenity, amenity_id)]
+        if amenities:
+            filtered_places = set()
+            for place in places:
+                if all(amenity in place.amenities for amenity in amenities):
+                    filtered_places.add(place)
+            places = filtered_places
+
+    places = [place.to_dict() for place in places]
+    for place in places:
+        place.pop('amenities', None)
+
+    return jsonify(places)
