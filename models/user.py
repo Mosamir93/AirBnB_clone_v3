@@ -29,7 +29,7 @@ class User(BaseModel, Base):
         """initializes user"""
 
         if 'password' in kwargs:
-            kwargs['password'] = self.hash_pass(kwargs['password'])
+            self.password = kwargs.pop('password')
         super().__init__(*args, **kwargs)
 
     @property
