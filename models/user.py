@@ -44,3 +44,10 @@ class User(BaseModel, Base):
     def hash_pass(self, password):
         """Hashes a password using md5."""
         return md5(password.encode()).hexdigest()
+
+    def to_dict(self):
+        """Overrides the base_model to_dict."""
+        new_dict = super().to_dict()
+        if models.storage_t == 'db' and 'password' in new_dict:
+            new_dict.pop("password", None)
+        return new_dict
