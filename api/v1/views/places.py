@@ -2,7 +2,7 @@
 """A view for place objects."""
 from api.v1.views import app_views
 from flask import jsonify, abort, Response, request
-from models import storage
+from models import storage, storage_t
 from models.place import Place
 from models.city import City
 from models.user import User
@@ -127,7 +127,12 @@ def places_search():
     if amenities_ids:
         amenities = [storage.get(Amenity, amenity_id)
                      for amenity_id in amenities_ids]
-        places = {place for place in places if all(
-            amenity in place.amenities for amenity in amenities
-        )}
+        if storage_t == 'db':
+            places = {place for place in places if all(
+                amenity in place.amenities for amenity in amenities
+            )}
+        else:
+            places = {place for place in places if all(
+                amenity_id in place.amenity_ids for amenity_id in amenities_ids
+            )}
     return jsonify([place.to_dict() for place in places])
