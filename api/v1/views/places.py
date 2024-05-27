@@ -96,13 +96,13 @@ def places_search():
     if data is None:
         abort(400, 'Not a JSON')
 
-    if not data:
-        all_places = storage.all(Place).values()
-        return jsonify([place.to_dict() for place in all_places])
-
     states = data.get('states', [])
     cities = data.get('cities', [])
     amenities_ids = data.get('amenities', [])
+
+    if not data or not states and not cities and not amenities_ids:
+        all_places = storage.all(Place).values()
+        return jsonify([place.to_dict() for place in all_places])
 
     places = set()
 
