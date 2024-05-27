@@ -122,7 +122,7 @@ def places_search():
                     places.add(place)
 
     if not states and not cities:
-        places = set(storage.all(Place).values())
+        places = storage.all(Place).values()
 
     if amenities_ids:
         amenities = [storage.get(Amenity, amenity_id)
