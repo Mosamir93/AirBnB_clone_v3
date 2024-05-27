@@ -128,11 +128,11 @@ def places_search():
         amenities = [storage.get(Amenity, amenity_id)
                      for amenity_id in amenities_ids]
         if storage_t == 'db':
-            places = {place for place in places if all(
+            places = [place for place in places if all(
                 amenity in place.amenities for amenity in amenities
-            )}
+            )]
         else:
-            places = {place for place in places if all(
+            places = [place for place in places if all(
                 amenity_id in place.amenity_ids for amenity_id in amenities_ids
-            )}
+            )]
     return jsonify([place.to_dict() for place in places])
